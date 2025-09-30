@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/fragments :: style}"></th:block>
+    <title>Pizzeria</title>
+  </head>
+  <body>
+    <div th:insert="~{fragments/fragments :: navbar}"></div>
+
+    <h1 class="text-center">Pizza [[${pizza.name}]]</h1>
+
+    <div class="container my-5">
+      <div class="row d-flex justify-content-center g-5">
+        <img th:src="@{'/img/' + ${pizza.img}}" alt="" class="w-50" />
+
+        <h2 class="text-center">Ingredienti</h4>
+
+        <div class="d-flex justify-content-center">
+          <ul>
+            <li
+              th:each="ingredient : ${pizza.ingredients}"
+              th:text="${ingredient.name}"
+            ></li>
+          </ul>
+
+        </div>
+
+        <h4 class="text-center">[[${pizza.description}]]</h4>
+        <a
+          class="btn btn-outline-primary w-25"
+          th:href="@{/pizzas/deal/{id} (id = ${pizza.id})}"
+        >
+          Crea nuova offerta speciale
+        </a>
+      </div>
+
+      <table th:if="${pizza.deals.size() > 0}" class="table my-5">
+        <thead>
+          <tr>
+            <th scope="col">Nome offerta</th>
+            <th scope="col">Data inizio offerta</th>
+            <th scope="col">Data fine offerta</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="deal : ${pizza.deals}">
+            <td class="align-middle">[[${deal.title}]]</td>
+            <td class="align-middle">[[${deal.startDate}]]</td>
+            <td class="align-middle">[[${deal.endDate}]]</td>
+            <td class="align-middle">
+              <a
+                class="btn btn-outline-warning btn-sm w-25"
+                th:href="@{/deals/edit/{id} (id = ${deal.id})}"
+              >
+                Modifica offerta
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

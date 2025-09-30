@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/fragments :: style}"></th:block>
+    <title>Pizzeria</title>
+  </head>
+  <body>
+    <div th:insert="~{fragments/fragments :: navbar}"></div>
+
+    <h1 class="text-center">Ingredienti</h1>
+
+    <div class="container my-5">
+      <a th:href="@{/ingredients/create}" class="btn btn-primary mb-3"
+        >Aggiungi ingrediente</a
+      >
+      
+      </form>
+      <div th:if="${ingredients.size()} > 0">
+        <!-- table -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="ingredient : ${ingredients}">
+              <td class="align-middle">[[${ingredient.name}]]</td>
+              <td class="align-middle">
+                <a
+                  class="btn btn-primary btn-sm"
+                  th:href="@{'/ingredients/' + ${ingredient.id}}"
+                >
+                  Dettaglio
+                </a>
+              </td>
+              <td class="align-middle">
+                <a
+                  class="btn btn-warning btn-sm"
+                  th:href="@{/ingredients/edit/{id} (id = ${ingredient.id})}"
+                >
+                  Modifica
+                </a>
+              </td>
+              <td class="align-middle">
+                <!-- Button trigger modal -->
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  data-bs-toggle="modal"
+                  th:attr="data-bs-target='#deleteModal-' + ${ingredient.id}"
+                >
+                  Elimina
+                </button>
+                <!-- Modal -->
+                <div
+                  class="modal fade"
+                  th:id="'deleteModal-' + ${ingredient.id}"
+                  tabindex="-1"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                          Eliminazione ingrediente [[${ingredient.name}]]
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        Stai eliminando l' ingrediente [[${ingredient.name}]]
+                        vuoi procedere?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-sm"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <form
+                          th:action="@{/ingredients/delete/{id} (id = ${ingredient.id})}"
+                          method="post"
+                        >
+                          <button type="submit" class="btn btn-danger btn-sm">
+                            Elimina
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div th:unless="${ingredients.size()} > 0">
+        <h3>Lista ingredienti vuota...</h3>
+      </div>
+    </div>
+  </body>
+</html>

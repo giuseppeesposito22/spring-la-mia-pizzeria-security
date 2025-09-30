@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/fragments :: style}"></th:block>
+    <title>Pizzeria</title>
+  </head>
+  <body>
+    <div th:insert="~{fragments/fragments :: navbar}"></div>
+
+    <h1 class="text-center my-3">
+      Inserimento nuova offerta per pizza [[${deal.pizza.name}]]
+    </h1>
+
+    <div class="container">
+      <form
+        th:action="${edit} ? @{/deals/update/{id} (id = ${deal.id})} : @{/deals/create}"
+        method="post"
+        id="deal-form"
+        th:object="${deal}"
+      >
+        <input type="hidden" th:field="*{pizza}" id="pizza" />
+
+        <div class="m-3">
+          <label for="startDate" class="form-label">Data inizio</label>
+          <input
+            type="date"
+            id="startDate"
+            class="form-control"
+            th:field="*{startDate}"
+            th:errorClass="is-invalid"
+          />
+          <div
+            th:if="${#fields.hasErrors('startDate')}"
+            class="invalid-feedback"
+          >
+            <ul>
+              <li th:each="err : ${#fields.errors('startDate')}">[[${err}]]</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="m-3">
+          <label for="endDate" class="form-label">Data fine</label>
+          <input
+            type="date"
+            id="endDate"
+            class="form-control"
+            th:field="*{endDate}"
+            th:errorClass="is-invalid"
+          />
+          <div th:if="${#fields.hasErrors('endDate')}" class="invalid-feedback">
+            <ul>
+              <li th:each="err : ${#fields.errors('endDate')}">[[${err}]]</li>
+            </ul>
+          </div>
+        </div>
+        <div class="m-3">
+          <label for="title" class="form-label">Nome offerta</label>
+          <input
+            type="text"
+            id="title"
+            class="form-control"
+            th:field="*{title}"
+            th:errorClass=" is-invalid"
+          />
+          <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+            <ul>
+              <li th:each="err : ${#fields.errors('title')}">[[${err}]]</li>
+            </ul>
+          </div>
+        </div>
+        <div class="m-3">
+          <button class="btn btn-primary" type="submit">Aggiungi</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

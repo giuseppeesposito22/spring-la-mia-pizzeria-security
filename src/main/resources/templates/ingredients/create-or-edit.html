@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/fragments :: style}"></th:block>
+    <title>Pizzeria</title>
+  </head>
+  <body>
+    <div th:insert="~{fragments/fragments :: navbar}"></div>
+
+    <h1 class="text-center my-3">Inserimento nuovo ingrediente</h1>
+
+    <div class="container">
+      <form
+        th:action="${edit} ? @{/ingredients/update/{id} (id = ${ingredient.id})} : @{/ingredients/create}"
+        method="post"
+        id="deal-form"
+        th:object="${ingredient}"
+      >
+        <input type="hidden" th:field="*{pizzas}" id="pizza" />
+
+        <div class="m-3">
+          <label for="name" class="form-label">Nome ingrediente</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            th:field="*{name}"
+            th:errorClass=" is-invalid"
+          />
+          <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+            <ul>
+              <li th:each="err : ${#fields.errors('name')}">[[${err}]]</li>
+            </ul>
+          </div>
+        </div>
+        <div class="m-3">
+          <button class="btn btn-primary" type="submit">Aggiungi</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <!-- bootstrap style-->
+  <th:block th:fragment="style">
+    <link
+      th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}"
+      rel="stylesheet"
+    />
+    <link th:href="@{/css/app.css}" rel="stylesheet" />
+    <script
+      th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"
+    ></script>
+  </th:block>
+
+  <!-- table -->
+  <table class="table" th:fragment="table(col1, col2, col3, col4, list)">
+    <thead>
+      <tr>
+        <th scope="col">[[${col1}]]</th>
+        <th scope="col">[[${col2}]]</th>
+        <th scope="col">[[${col3}]]</th>
+        <th scope="col">[[${col4}]]</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="obj : ${list}">
+        <th scope="row">
+          <img th:src="@{'/img/' + ${obj.img}}" alt="piza" width="100" />
+        </th>
+        <td class="align-middle">[[${obj.name}]]</td>
+        <td class="align-middle">[[${obj.description}]]</td>
+        <td class="align-middle">[[${obj.price}]]€</td>
+
+        <td class="align-middle">
+          <a class="btn btn-primary btn-sm" th:href="@{'/pizzas/' + ${obj.id}}">
+            Dettaglio
+          </a>
+        </td>
+        <td class="align-middle">
+          <a
+            class="btn btn-warning btn-sm"
+            th:href="@{/pizzas/edit/{id} (id = ${obj.id})}"
+          >
+            Modifica
+          </a>
+        </td>
+        <td class="align-middle">
+          <!-- Button trigger modal -->
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            data-bs-toggle="modal"
+            th:attr="data-bs-target='#deleteModal-' + ${obj.id}"
+          >
+            Elimina
+          </button>
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            th:id="'deleteModal-' + ${obj.id}"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    Eliminazione pizza [[${obj.name}]]
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  Stai eliminando la pizza [[${obj.name}]] vuoi procedere?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary btn-sm"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <form
+                    th:action="@{/pizzas/delete/{id} (id = ${obj.id})}"
+                    method="post"
+                  >
+                    <button type="submit" class="btn btn-danger btn-sm">
+                      Elimina
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- navbar -->
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Home</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/pizzas"
+              >Pizze</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/ingredients"
+              >Ingredienti</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</html>

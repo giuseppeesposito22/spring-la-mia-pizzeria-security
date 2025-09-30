@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/fragments :: style}"></th:block>
+    <title>Pizzeria</title>
+  </head>
+  <body>
+    <div th:insert="~{fragments/fragments :: navbar}"></div>
+
+    <h1 class="text-center">Pizze</h1>
+
+    <div class="container my-5">
+      <a th:href="@{/pizzas/create}" class="btn btn-primary">Aggiungi pizza</a>
+      <form
+        th:action="@{/pizzas}"
+        method="get"
+        class="mb-4 d-flex justify-content-end"
+      >
+        <input
+          type="text"
+          name="name"
+          class="form-control d-inline w-auto"
+          placeholder="Cerca per nome"
+          th:value="${param.name}"
+        />
+      </form>
+      <div th:if="${pizzas.size()} > 0">
+        <th:block
+          th:replace="~{fragments/fragments :: table('Immagine', 'Nome', 'Descrizione', 'Prezzo', ${pizzas})}"
+        ></th:block>
+      </div>
+      <div th:unless="${pizzas.size()} > 0">
+        <h3>Pizzas list is empty...</h3>
+      </div>
+    </div>
+  </body>
+</html>
