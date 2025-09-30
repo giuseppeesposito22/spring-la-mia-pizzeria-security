@@ -3,7 +3,6 @@ package org.lessons.java.spring_pizzeria.controller;
 import java.util.List;
 
 import org.lessons.java.spring_pizzeria.model.Deal;
-import org.lessons.java.spring_pizzeria.model.Ingredient;
 import org.lessons.java.spring_pizzeria.model.Pizza;
 import org.lessons.java.spring_pizzeria.repository.IngredientRepository;
 import org.lessons.java.spring_pizzeria.repository.PizzaRepository;
