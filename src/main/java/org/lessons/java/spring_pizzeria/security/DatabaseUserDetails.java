@@ -1,11 +1,11 @@
 package org.lessons.java.spring_pizzeria.security;
 
-import java.util.Collection;
+
 import java.util.HashSet;
 import java.util.Set;
 
 
-import org.jspecify.annotations.Nullable;
+
 import org.lessons.java.spring_pizzeria.model.Role;
 import org.lessons.java.spring_pizzeria.model.User;
 import org.springframework.security.core.GrantedAuthority;
