@@ -31,6 +31,7 @@
         <a
           class="btn btn-outline-primary w-25"
           th:href="@{/pizzas/deal/{id} (id = ${pizza.id})}"
+          sec:authorize="hasAuthority('ADMIN')"
         >
           Crea nuova offerta speciale
         </a>
@@ -54,6 +55,7 @@
               <a
                 class="btn btn-outline-warning btn-sm w-25"
                 th:href="@{/deals/edit/{id} (id = ${deal.id})}"
+                sec:authorize="hasAuthority('ADMIN')"
               >
                 Modifica offerta
               </a>

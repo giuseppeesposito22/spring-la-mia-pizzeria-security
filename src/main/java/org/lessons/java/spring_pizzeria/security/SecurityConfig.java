@@ -16,32 +16,31 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    @SuppressWarnings("removal")
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         
-         http.authorizeHttpRequests(requests -> requests
-        .requestMatchers("/pizzas/create", "/pizzas/edit/**").hasAuthority("USER")
+        http.authorizeHttpRequests(requests -> requests
+        .requestMatchers("/pizzas/create", "/pizzas/edit/**").hasAuthority("ADMIN")
         .requestMatchers(HttpMethod.POST, "/pizzas/**").hasAnyAuthority("ADMIN")
         .requestMatchers("/pizzas", "/pizzas/**").hasAnyAuthority("ADMIN", "USER")
         .requestMatchers("/ingredients", "/ingredients/**").hasAuthority("ADMIN")
         .requestMatchers("/deals", "/deals/**").hasAuthority("ADMIN")
         .requestMatchers("/").permitAll()
         .requestMatchers("/**").permitAll())
-        .formLogin(Customizer.withDefaults());
+        .formLogin(Customizer.withDefaults())
+        .authenticationProvider(authenticationProvider()); // AGGIUNTO
+        
         
         
         
         return http.build();
     }
 
+
     @Bean
-    @SuppressWarnings("deprecation")
     DaoAuthenticationProvider authenticationProvider(){
-      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailService());
 
         
-
-        authProvider.setUserDetailsService(userDetailService());
        
         authProvider.setPasswordEncoder(passwordEncoder());
 
