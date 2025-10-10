@@ -37,7 +37,7 @@ public class DatabaseUserDetails implements UserDetails{
         return true;
     }
 
-     @Override
+    @Override
     public boolean isAccountNonLocked(){
         return true;
     }
